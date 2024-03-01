@@ -1,7 +1,6 @@
 name: Release Build CI
 
 on:
-  on:
   workflow_dispatch:
 
 jobs:
