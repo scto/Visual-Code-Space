@@ -16,16 +16,18 @@
 package com.raredev.vcspace.editor
 
 import android.animation.LayoutTransition
+import android.annotation.SuppressLint
 import android.graphics.RectF
 import android.graphics.drawable.GradientDrawable
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.SizeUtils
-import com.raredev.vcspace.adapters.TextActionListAdapter
+import com.raredev.vcspace.editor.databinding.LayoutTextActionItemBinding
 import com.raredev.vcspace.extensions.getAttrColor
-import com.raredev.vcspace.models.TextAction
 import com.raredev.vcspace.res.R
 import io.github.rosemoe.sora.event.HandleStateChangeEvent
 import io.github.rosemoe.sora.event.ScrollEvent
@@ -62,6 +64,9 @@ class TextActionsWindow(editor: VCSpaceEditor) :
         setColor(rootView.context.getAttrColor(com.google.android.material.R.attr.colorSurface))
         setCornerRadius(25f)
       }
+    rootView.setLayoutTransition(LayoutTransition().apply {
+      enableTransitionType(LayoutTransition.CHANGING)
+    })
     rootView.addView(recyclerView)
 
     popup.contentView = rootView
@@ -83,7 +88,6 @@ class TextActionsWindow(editor: VCSpaceEditor) :
         postDisplay()
       }
     }
-    setupAnimation()
   }
 
   fun executeTextAction(action: TextAction) {
@@ -259,9 +263,71 @@ class TextActionsWindow(editor: VCSpaceEditor) :
     setSize(rootView.measuredWidth, height)
   }
 
-  private fun setupAnimation() {
-    val transition = LayoutTransition()
-    transition.enableTransitionType(LayoutTransition.CHANGING)
-    rootView.setLayoutTransition(transition)
+  class TextActionListAdapter(val textActions: TextActionsWindow) :
+    RecyclerView.Adapter<TextActionListAdapter.TextActionViewHolder>() {
+    private val visibleActions = mutableListOf<TextAction>()
+
+    inner class TextActionViewHolder(internal val binding: LayoutTextActionItemBinding) :
+      RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextActionViewHolder {
+      return TextActionViewHolder(
+        LayoutTextActionItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+      )
+    }
+
+    override fun onBindViewHolder(holder: TextActionViewHolder, position: Int) {
+      holder.binding.item.apply {
+        val action = visibleActions[position]
+
+        setIconResource(action.icon)
+
+        isClickable = action.clickable
+        tooltipText = context.getString(action.text)
+
+        setOnClickListener { textActions.executeTextAction(action) }
+      }
+    }
+
+    override fun getItemCount(): Int {
+      return visibleActions.size
+    }
+
+    fun updateAction(pos: Int, visible: Boolean, clickable: Boolean = true) {
+      actions[pos].apply {
+        this.visible = visible
+        this.clickable = clickable
+      }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun refreshActions() {
+      visibleActions.clear()
+      for (action in actions) {
+        if (action.visible) {
+          visibleActions.add(action)
+        }
+      }
+      notifyDataSetChanged()
+    }
+    
+    companion object {
+      private val actions = listOf(
+        TextAction(R.drawable.ic_comment_text_outline, R.string.comment_line), // Comment Action
+        TextAction(R.drawable.ic_select_all, R.string.select_all), // Select All Text Action
+        TextAction(R.drawable.ic_text_select_start, R.string.long_select), // Long Select Action
+        TextAction(R.drawable.ic_copy, R.string.copy), // Copy Text Action
+        TextAction(R.drawable.ic_paste, R.string.paste), // Paste Text Action
+        TextAction(R.drawable.ic_cut, R.string.cut), // Cut Text Action
+        TextAction(R.drawable.ic_format_align_left, R.string.menu_format) // Format Text Action
+      )
+    }
   }
+
+  class TextAction(
+    val icon: Int,
+    val text: Int,
+    var visible: Boolean = true,
+    var clickable: Boolean = true
+  )
 }

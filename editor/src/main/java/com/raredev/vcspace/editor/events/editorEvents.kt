@@ -13,8 +13,8 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.raredev.vcspace.events
+package com.raredev.vcspace.editor.events
 
 import java.io.File
 
-data class OnDeleteFileEvent(val file: File)
+data class OnContentChangeEvent(val file: File?)
