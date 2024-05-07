@@ -31,7 +31,7 @@ jobs:
           gradle-version: nightly
           arguments: assembleDebug
 
-      - name: Upload debug apk
+      - name: Upload debug apks
         uses: actions/upload-artifact@v3
         with:
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/dev/debug/app-debug.apk
