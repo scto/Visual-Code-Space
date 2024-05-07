@@ -40,7 +40,7 @@ common-jsoup = { module = "org.jsoup:jsoup", version = "1.16.2" }
 common-jgit = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jgit" }
 common-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version = "2.12" }
 common-utilcode = { module = "com.blankj:utilcodex", version = "1.31.1" }
-common-android-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version = "1.7.3" }
+common-android-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version = "1.8.0" }
 common-pf4j = { module = "org.pf4j:pf4j", version = "3.10.0" }
 common-kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.6.0" }
 common-junit = { group = "junit", name = "junit", version.ref = "junit" }
