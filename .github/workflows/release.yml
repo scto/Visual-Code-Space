@@ -1,11 +1,7 @@
-name: Release CI
+name: Release Build CI
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
@@ -31,7 +27,8 @@ jobs:
           gradle-version: nightly
           arguments: assembleRelease
 
-      - name: Upload release apks
+      - name: Upload release apk
         uses: actions/upload-artifact@v3
         with:
-          path: app/build/outputs/apk/release/app-release.apk
+          name: apk-release
+          path: app/build/outputs/apk/release
