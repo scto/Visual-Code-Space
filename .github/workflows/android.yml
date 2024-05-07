@@ -1,0 +1,38 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3.13.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Give permission to executable
+        run: chmod +x gradlew
+
+      - name: Build with gradle
+        uses: gradle/gradle-build-action@v2.9.0
+        with:
+          gradle-version: nightly
+          arguments: assembleDebug
+
+      - name: Upload debug apks
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/dev/debug/app-debug.apk
