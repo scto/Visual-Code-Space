@@ -1,4 +1,6 @@
 import com.android.build.gradle.BaseExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
   id("build-logic.root-project")
@@ -31,6 +33,19 @@ fun Project.configureBaseExtension() {
       targetCompatibility = JavaVersion.VERSION_17
     }
   }
+}
+
+allprojects {
+    tasks.withType<JavaCompile> {
+        val compilerArgs = options.compilerArgs
+        compilerArgs.add("-Xlint:unchecked")
+        compilerArgs.add("-Xlint:deprecation")
+    }
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.freeCompilerArgs = listOf(
+            "-opt-in=kotlin.RequiresOptIn"
+        )
+    }
 }
 
 subprojects {
