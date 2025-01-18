@@ -13,7 +13,6 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 package com.teixeira.vcspace.editor.language.textmate;
 
 import android.annotation.SuppressLint;
@@ -58,30 +57,35 @@ import io.github.rosemoe.sora.util.ArrayList;
 import io.github.rosemoe.sora.util.MyCharacter;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 
-public class VCSpaceTMAnalyzer extends AsyncIncrementalAnalyzeManager<MyState, Span> implements FoldingHelper, ThemeRegistry.ThemeChangeListener {
+public class VCSpaceTMAnalyzer extends AsyncIncrementalAnalyzeManager<MyState, Span>
+    implements FoldingHelper, ThemeRegistry.ThemeChangeListener {
   private final IGrammar grammar;
   private Theme theme;
   private final VCSpaceTMLanguage language;
   private final LanguageConfiguration configuration;
 
-  //private final GrammarRegistry grammarRegistry;
+  // private final GrammarRegistry grammarRegistry;
 
   private final ThemeRegistry themeRegistry;
 
   private OnigRegExp cachedRegExp;
   private boolean foldingOffside;
   private BracketsProvider bracketsProvider;
-  final IdentifierAutoComplete.SyncIdentifiers syncIdentifiers = new IdentifierAutoComplete.SyncIdentifiers();
+  final IdentifierAutoComplete.SyncIdentifiers syncIdentifiers =
+      new IdentifierAutoComplete.SyncIdentifiers();
 
-
-  public VCSpaceTMAnalyzer(VCSpaceTMLanguage language, IGrammar grammar, LanguageConfiguration languageConfiguration,/* GrammarRegistry grammarRegistry,*/ ThemeRegistry themeRegistry) {
+  public VCSpaceTMAnalyzer(
+      VCSpaceTMLanguage language,
+      IGrammar grammar,
+      LanguageConfiguration languageConfiguration, /* GrammarRegistry grammarRegistry,*/
+      ThemeRegistry themeRegistry) {
     this.language = language;
 
     this.theme = themeRegistry.getCurrentThemeModel().getTheme();
 
     this.grammar = grammar;
 
-    //this.grammarRegistry = grammarRegistry;
+    // this.grammarRegistry = grammarRegistry;
 
     this.themeRegistry = themeRegistry;
 
@@ -164,12 +168,15 @@ public class VCSpaceTMAnalyzer extends AsyncIncrementalAnalyzeManager<MyState, S
     return list;
   }
 
-  public void analyzeCodeBlocks(Content model, ArrayList<CodeBlock> blocks, CodeBlockAnalyzeDelegate delegate) {
+  public void analyzeCodeBlocks(
+      Content model, ArrayList<CodeBlock> blocks, CodeBlockAnalyzeDelegate delegate) {
     if (cachedRegExp == null) {
       return;
     }
     try {
-      var foldingRegions = IndentRange.computeRanges(model, language.tabSize, foldingOffside, this, cachedRegExp, delegate);
+      var foldingRegions =
+          IndentRange.computeRanges(
+              model, language.tabSize, foldingOffside, this, cachedRegExp, delegate);
       blocks.ensureCapacity(foldingRegions.length());
       for (int i = 0; i < foldingRegions.length() && delegate.isNotCancelled(); i++) {
         int startLine = foldingRegions.getStartLineNumber(i);
@@ -198,15 +205,22 @@ public class VCSpaceTMAnalyzer extends AsyncIncrementalAnalyzeManager<MyState, S
 
   @Override
   @SuppressLint("NewApi")
-  public synchronized LineTokenizeResult<MyState, Span> tokenizeLine(CharSequence lineC, MyState state, int lineIndex) {
-    String line = (lineC instanceof ContentLine) ? ((ContentLine) lineC).toStringWithNewline() : lineC.toString();
+  public synchronized LineTokenizeResult<MyState, Span> tokenizeLine(
+      CharSequence lineC, MyState state, int lineIndex) {
+    String line =
+        (lineC instanceof ContentLine)
+            ? ((ContentLine) lineC).toStringWithNewline()
+            : lineC.toString();
     var tokens = new ArrayList<Span>();
     var surrogate = StringUtils.checkSurrogate(line);
-    var lineTokens = grammar.tokenizeLine2(line, state == null ? null : state.tokenizeState, Duration.ofSeconds(2));
+    var lineTokens =
+        grammar.tokenizeLine2(
+            line, state == null ? null : state.tokenizeState, Duration.ofSeconds(2));
     int tokensLength = lineTokens.getTokens().length / 2;
     var identifiers = language.createIdentifiers ? new ArrayList<String>() : null;
     for (int i = 0; i < tokensLength; i++) {
-      int startIndex = StringUtils.convertUnicodeOffsetToUtf16(line, lineTokens.getTokens()[2 * i], surrogate);
+      int startIndex =
+          StringUtils.convertUnicodeOffsetToUtf16(line, lineTokens.getTokens()[2 * i], surrogate);
       if (i == 0 && startIndex != 0) {
         tokens.add(SpanFactory.obtain(0, EditorColorScheme.TEXT_NORMAL));
       }
@@ -217,7 +231,11 @@ public class VCSpaceTMAnalyzer extends AsyncIncrementalAnalyzeManager<MyState, S
       if (language.createIdentifiers) {
 
         if (tokenType == StandardTokenType.Other) {
-          var end = i + 1 == tokensLength ? lineC.length() : StringUtils.convertUnicodeOffsetToUtf16(line, lineTokens.getTokens()[2 * (i + 1)], surrogate);
+          var end =
+              i + 1 == tokensLength
+                  ? lineC.length()
+                  : StringUtils.convertUnicodeOffsetToUtf16(
+                      line, lineTokens.getTokens()[2 * (i + 1)], surrogate);
           if (end > startIndex && MyCharacter.isJavaIdentifierStart(line.charAt(startIndex))) {
             var flag = true;
             for (int j = startIndex + 1; j < end; j++) {
@@ -232,7 +250,15 @@ public class VCSpaceTMAnalyzer extends AsyncIncrementalAnalyzeManager<MyState, S
           }
         }
       }
-      Span span = SpanFactory.obtain(startIndex, TextStyle.makeStyle(foreground + 255, 0, (fontStyle & FontStyle.Bold) != 0, (fontStyle & FontStyle.Italic) != 0, false));
+      Span span =
+          SpanFactory.obtain(
+              startIndex,
+              TextStyle.makeStyle(
+                  foreground + 255,
+                  0,
+                  (fontStyle & FontStyle.Bold) != 0,
+                  (fontStyle & FontStyle.Italic) != 0,
+                  false));
 
       span.setExtra(tokenType);
 
@@ -245,7 +271,15 @@ public class VCSpaceTMAnalyzer extends AsyncIncrementalAnalyzeManager<MyState, S
 
       tokens.add(span);
     }
-    return new LineTokenizeResult<>(new MyState(lineTokens.getRuleStack(), cachedRegExp == null ? null : cachedRegExp.search(OnigString.of(line), 0), IndentRange.computeIndentLevel(((ContentLine) lineC).getBackingCharArray(), line.length() - 1, language.tabSize), identifiers), null, tokens);
+    return new LineTokenizeResult<>(
+        new MyState(
+            lineTokens.getRuleStack(),
+            cachedRegExp == null ? null : cachedRegExp.search(OnigString.of(line), 0),
+            IndentRange.computeIndentLevel(
+                ((ContentLine) lineC).getBackingCharArray(), line.length() - 1, language.tabSize),
+            identifiers),
+        null,
+        tokens);
   }
 
   @Override

@@ -21,8 +21,8 @@ public record SpecialButton(String key) {
    * Initialize a {@link SpecialButton}.
    *
    * @param key The unique key name for the special button. The key is registered in {@link #map}
-   *            with which the {@link SpecialButton} can be retrieved via a call to {@link
-   *            #valueOf(String)}.
+   *     with which the {@link SpecialButton} can be retrieved via a call to {@link
+   *     #valueOf(String)}.
    */
   public SpecialButton(@NonNull final String key) {
     this.key = key;
@@ -38,9 +38,7 @@ public record SpecialButton(String key) {
     return map.get(key);
   }
 
-  /**
-   * Get {@link #key} for this {@link SpecialButton}.
-   */
+  /** Get {@link #key} for this {@link SpecialButton}. */
   @Override
   public String key() {
     return key;

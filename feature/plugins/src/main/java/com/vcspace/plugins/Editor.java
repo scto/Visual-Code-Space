@@ -24,9 +24,7 @@ import com.vcspace.plugins.editor.Position;
 
 import java.io.File;
 
-/**
- * Represents the editor within the application.
- */
+/** Represents the editor within the application. */
 public interface Editor {
 
   /**

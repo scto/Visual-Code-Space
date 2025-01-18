@@ -18,8 +18,8 @@ package com.vcspace.plugins;
 import androidx.annotation.NonNull;
 
 /**
- * Represents a plugin interface that every plugin must implement.
- * The main entry point for the plugin, providing access to the application context and functionalities.
+ * Represents a plugin interface that every plugin must implement. The main entry point for the
+ * plugin, providing access to the application context and functionalities.
  */
 public interface Plugin {
 

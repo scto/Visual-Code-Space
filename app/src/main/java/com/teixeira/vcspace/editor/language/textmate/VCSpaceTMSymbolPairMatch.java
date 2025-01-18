@@ -53,7 +53,6 @@ public class VCSpaceTMSymbolPairMatch extends SymbolPairMatch {
     }
   }
 
-
   public void updatePair() {
 
     if (!enabled) {
@@ -82,15 +81,18 @@ public class VCSpaceTMSymbolPairMatch extends SymbolPairMatch {
 
       for (var surroundingPair : surroundingPairs) {
 
-        var newPair = new AutoClosingPairConditional(surroundingPair.open, surroundingPair.close,
-          surroundingPairFlagWithList);
+        var newPair =
+            new AutoClosingPairConditional(
+                surroundingPair.open, surroundingPair.close, surroundingPairFlagWithList);
 
         mergePairs.add(newPair);
       }
     }
 
     for (var pair : mergePairs) {
-      putPair(pair.open, new SymbolPair(pair.open, pair.close, new VCSpaceTMSymbolPairMatch.SymbolPairEx(pair)));
+      putPair(
+          pair.open,
+          new SymbolPair(pair.open, pair.close, new VCSpaceTMSymbolPairMatch.SymbolPairEx(pair)));
     }
   }
 
@@ -202,7 +204,6 @@ public class VCSpaceTMSymbolPairMatch extends SymbolPairMatch {
           start++;
 
           continue;
-
         }
 
         // if (currentSpan.column > column)
@@ -213,11 +214,9 @@ public class VCSpaceTMSymbolPairMatch extends SymbolPairMatch {
         }
 
         end--;
-
       }
 
       return currentSpan;
-
     }
 
     @Override

@@ -1,4 +1,5 @@
-// Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
+// Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the
+// Apache 2.0 license.
 package com.teixeira.vcspace.utils;
 
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import java.util.NoSuchElementException;
 /**
  * @param <T> The type of path.
  * @see <a
- * href="https://github.com/JetBrains/intellij-community/blob/master/platform/util/base/src/com/intellij/filename/UniqueNameBuilder.java">UniqueNameBuilder.java</a>
+ *     href="https://github.com/JetBrains/intellij-community/blob/master/platform/util/base/src/com/intellij/filename/UniqueNameBuilder.java">UniqueNameBuilder.java</a>
  */
 public final class UniqueNameBuilder<T> {
 
@@ -39,14 +40,19 @@ public final class UniqueNameBuilder<T> {
     return myPaths.size();
   }
 
-  /** @noinspection ReassignedVariable*/
+  /**
+   * @noinspection ReassignedVariable
+   */
   // Build a trie from path components starting from end
   // E.g. following try will be build from example
-  //                                                                                   |<-------[/fabrique]  <-  [/idea]
+  //
+  // |<-------[/fabrique]  <-  [/idea]
   // /idea/pycharm/download/index.html                                                 |
-  // /idea/fabrique/download/index.html           [RootNode] <- [/index.html] <- [/download] <- [/pycharm]  <- [/idea]
+  // /idea/fabrique/download/index.html           [RootNode] <- [/index.html] <- [/download] <-
+  // [/pycharm]  <- [/idea]
   // /idea/pycharm/documentation/index.html                              |
-  //                                                                     |<------[/documentation] <- [/pycharm]  <- [/idea]
+  //                                                                     |<------[/documentation] <-
+  // [/pycharm]  <- [/idea]
   public void addPath(T key, String path) {
     path = trimStart(path, myRoot);
     myPaths.put(key, path);
@@ -83,11 +89,11 @@ public final class UniqueNameBuilder<T> {
       if (fileNameNode == null) {
         fileNameNode = current;
       }
-      if (firstNodeBeforeNodeWithBranches == null &&
-        firstNodeWithBranches != null &&
-        current.myChildren.size() <= 1) {
+      if (firstNodeBeforeNodeWithBranches == null
+          && firstNodeWithBranches != null
+          && current.myChildren.size() <= 1) {
         if (current.myParentNode.myNestedChildrenCount - current.myParentNode.myChildren.size()
-          < 1) {
+            < 1) {
           firstNodeBeforeNodeWithBranches = current;
         }
       }
@@ -104,8 +110,9 @@ public final class UniqueNameBuilder<T> {
 
     boolean skipFirstSeparator = true;
     for (Node c = firstNodeBeforeNodeWithBranches; c != myRootNode; c = c.myParentNode) {
-      if (c != fileNameNode && c != firstNodeBeforeNodeWithBranches
-        && c.myParentNode.myChildren.size() == 1) {
+      if (c != fileNameNode
+          && c != firstNodeBeforeNodeWithBranches
+          && c.myParentNode.myChildren.size() == 1) {
         b.append(mySeparator);
         b.append("\u2026");
 
