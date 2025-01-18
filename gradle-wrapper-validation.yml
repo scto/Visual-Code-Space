@@ -1,0 +1,24 @@
+name: "Validate Gradle Wrapper"
+
+on:
+  workflow_dispatch: # on button click
+  push:
+    branches: [ master ]
+  schedule:
+    - cron: '*/30 * * * *' # every 30 minutes
+    
+jobs:
+  validation:
+    name: "Validation"
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+          path: master
+          
+      - name: "Validation"
+        uses: gradle/actions/wrapper-validation@v4

@@ -1,0 +1,46 @@
+name: ktmft formatter
+
+on:
+  workflow_dispatch: # on button click
+  push:
+    branches: [ master]
+  schedule:
+    - cron: '*/30 * * * *' # every 30 minutes
+
+jobs:
+  format:
+    name: Format Code with ktfmt
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+          path: master
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          
+      - name: Download ktfmt
+        run: |
+          wget https://github.com/facebook/ktfmt/releases/download/v0.52/ktfmt-0.52-jar-with-dependencies.jar -O ktfmt.jar
+
+      - name: Run ktfmt on Kotlin files
+        run: |
+          find . -name "*.kt" -exec java -jar ktfmt.jar --kotlinlang-style {} +
+
+      - name: Commit and Push changes to branch master
+        run: |
+          git config --global user.name "scto"
+          git config --global user.email "tschmid35@gmail.com"
+          git add .
+          git commit -m "chore: Format Code on branch master" -m "fornat code with ktfmt with github actions"
+          git branch -M main
+          git push origin main
+        env:
+          TOKEN: ${{ github.token }} # ${{ secrets.SUPER_TOKEN }}
+        continue-on-error: true

@@ -1,0 +1,35 @@
+name: Update Gradle Wrapper
+
+on:
+  workflow_dispatch: # on button click
+  schedule:
+    - cron: '*/30 * * * *' # every 30 minutes
+
+jobs:
+  update-gradle-wrapper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+          path: main
+      
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+          
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        
+      - name: Build with Gradle
+        run: ./gradlew build
+        
+      #- name: Change Gradle wrapper permissions
+      #  run: chmod +x ./gradlew
+
+      - name: Update Gradle Wrapper
+        uses: gradle-update/update-gradle-wrapper-action@v2
