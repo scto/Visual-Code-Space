@@ -1,4 +1,4 @@
-name: Android CI
+name: Android Debug CI
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        build-type: [release]
+        build-type: [debug]
     steps:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.12.1
