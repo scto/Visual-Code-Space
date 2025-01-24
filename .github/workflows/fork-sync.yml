@@ -17,10 +17,6 @@ jobs:
           token: ${{ github.token }}
           repo: Visual-Code-Space
           owner: scto
-          base:
-            - main
-            - dev
-          head:
-            - main
-            - dev
+          base: main
+          head: main
           merge_method:	merge
