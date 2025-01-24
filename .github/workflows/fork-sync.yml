@@ -2,11 +2,6 @@ name: Sync Fork
 
 on:
   workflow_dispatch: # on button click
-    inputs:
-      branch:
-        description: 'Brach: '
-        required: true
-        default: main
   schedule:
     - cron: '*/30 * * * *' # every 30 minutes
   
@@ -19,6 +14,6 @@ jobs:
           token: ${{ github.token }}
           repo: Visual-Code-Space
           owner: scto
-          base: ${{ github.event.inputs.branch }}
-          head: ${{ github.event.inputs.branch }}
+          base: main
+          head: main 
           merge_method:	merge
