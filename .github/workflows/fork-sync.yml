@@ -3,7 +3,10 @@ name: Sync Fork
 on:
   workflow_dispatch: # on button click
   schedule:
+    # https://crontab.guru/#*/30_*_*_*_*
     #- cron: '*/30 * * * *' # every 30 minutes
+    
+    # https://crontab.guru/#23_0-20/2_*_*_*
     - cron: '0 0-24/2 * * *' #At minute 0 past every 2nd hour from 0 through 24
 jobs:
   sync:
@@ -14,6 +17,12 @@ jobs:
           token: ${{ github.token }}
           repo: Visual-Code-Space
           owner: scto
-          base: main
-          head: main
+          base:
+            - main
+            - master
+            - dev
+          head:
+            - main
+            - master
+            - dev
           merge_method:	merge
