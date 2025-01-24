@@ -6,12 +6,26 @@ updates:
     directory: '/'
     schedule:
       interval: daily
-      time: '15:00'
+      time: '13:00'
     target-branch: main
 
   - package-ecosystem: github-actions
     directory: '/'
     schedule:
       interval: daily
-      time: '15:00'
+      time: '13:00'
     target-branch: main
+
+    - package-ecosystem: gradle
+    directory: '/'
+    schedule:
+      interval: daily
+      time: '13:00'
+    target-branch: dev
+
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: daily
+      time: '13:00'
+    target-branch: dev
