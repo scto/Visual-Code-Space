@@ -27,7 +27,10 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          
+
+      - name: Git Pull
+        run: git pull
+        
       - name: Google Java Format"
         uses: axel-op/googlejavaformat-action@v3
         with:
@@ -52,6 +55,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Git Pull
+        run: git pull
         
       - name: Google Java Format"
         uses: axel-op/googlejavaformat-action@v3
@@ -76,6 +82,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Git Pull
+        run: git pull
         
       - name: Google Java Format"
         uses: axel-op/googlejavaformat-action@v3
