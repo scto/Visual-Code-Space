@@ -1,29 +1,30 @@
-name: ktmft formatter
+name: Code Formatter
 
 on:
-  workflow_dispatch: # on button click
   push:
-    branches: [ master]
+    branches:
+      - main
+      - d
+    paths-ignore:
+      - '**/*.md'
   schedule:
     - cron: '*/30 * * * *' # every 30 minutes
+  workflow_dispatch:
 
 jobs:
   format:
-    name: Format Code with ktfmt
+    name: Format Kotlin Code with ktfmt
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          submodules: 'true'
-          path: master
 
-      - name: Set up JDK 21
+      - name: Set up JDK 22
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          distribution: 'oracle'
+          java-version: '22'
           
       - name: Download ktfmt
         run: |
@@ -43,4 +44,40 @@ jobs:
           git push origin main
         env:
           TOKEN: ${{ github.token }} # ${{ secrets.SUPER_TOKEN }}
+        continue-on-error: true
+  
+  format-java:
+    name: Format Java Code with Google Java Format
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 22
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'oracle'
+          java-version: '22'
+          
+      - name: Download Google Java Format
+        run: |
+          wget https://github.com/google/google-java-format/releases/download/v1.24.0/google-java-format-1.24.0-all-deps.jar -O google-java-format.jar
+
+      - name: Run Google Java Format in Java files
+        run: |
+          find . -name "*.java" -exec java -jar google-java-format.jar --replace {} +
+
+      - name: Commit and Push changes
+        run: |
+          rm google-java-format.jar
+          git config --global user.name "trindadedev13"
+          git config --global user.email "trindadedev13@gmail.com"
+          git fetch origin ${GITHUB_REF_NAME}:temp
+          git add .
+          git commit -m "chore: Format Java Code" -m "format code with google java format in github actions"
+          git rebase temp
+          git push origin HEAD:${GITHUB_REF_NAME}
+        env:
+          TOKEN: ${{ secrets.SUPER_TOKEN }}
         continue-on-error: true
