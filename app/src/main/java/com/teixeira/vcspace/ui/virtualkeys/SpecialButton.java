@@ -1,7 +1,6 @@
 package com.teixeira.vcspace.ui.virtualkeys;
 
 import androidx.annotation.NonNull;
-
 import java.util.HashMap;
 
 /**

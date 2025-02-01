@@ -1,7 +1,6 @@
 package com.teixeira.vcspace.ui.virtualkeys;
 
 import android.widget.Button;
-
 import java.util.ArrayList;
 import java.util.List;
 

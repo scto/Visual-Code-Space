@@ -17,7 +17,6 @@ package com.vcspace.plugins.command;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.vcspace.plugins.Editor;
 
 /**

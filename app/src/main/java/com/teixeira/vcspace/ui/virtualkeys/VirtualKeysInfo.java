@@ -2,11 +2,8 @@ package com.teixeira.vcspace.ui.virtualkeys;
 
 import android.view.View;
 import android.widget.Button;
-
 import androidx.annotation.NonNull;
-
 import com.teixeira.vcspace.ui.virtualkeys.VirtualKeysConstants.EXTRA_KEY_DISPLAY_MAPS;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

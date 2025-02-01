@@ -15,18 +15,16 @@
 
 package com.teixeira.vcspace.editor.language.textmate;
 
-import org.eclipse.tm4e.core.internal.grammar.tokenattrs.StandardTokenType;
-import org.eclipse.tm4e.languageconfiguration.internal.model.AutoClosingPairConditional;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import io.github.rosemoe.sora.lang.styling.Span;
 import io.github.rosemoe.sora.text.Content;
 import io.github.rosemoe.sora.text.ContentLine;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.SymbolPairMatch;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.eclipse.tm4e.core.internal.grammar.tokenattrs.StandardTokenType;
+import org.eclipse.tm4e.languageconfiguration.internal.model.AutoClosingPairConditional;
 
 public class VCSpaceTMSymbolPairMatch extends SymbolPairMatch {
   private static final String surroundingPairFlag = "surroundingPair";

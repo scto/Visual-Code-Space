@@ -1,7 +1,6 @@
 package com.teixeira.vcspace.ui.virtualkeys;
 
 import android.view.KeyEvent;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

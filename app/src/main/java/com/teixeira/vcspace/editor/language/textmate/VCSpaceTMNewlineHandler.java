@@ -16,24 +16,20 @@
 package com.teixeira.vcspace.editor.language.textmate;
 
 import android.util.Pair;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
+import io.github.rosemoe.sora.lang.smartEnter.NewlineHandleResult;
+import io.github.rosemoe.sora.lang.smartEnter.NewlineHandler;
+import io.github.rosemoe.sora.lang.styling.Styles;
+import io.github.rosemoe.sora.text.CharPosition;
+import io.github.rosemoe.sora.text.Content;
+import java.util.Arrays;
 import org.eclipse.tm4e.languageconfiguration.internal.model.CompleteEnterAction;
 import org.eclipse.tm4e.languageconfiguration.internal.model.EnterAction;
 import org.eclipse.tm4e.languageconfiguration.internal.model.LanguageConfiguration;
 import org.eclipse.tm4e.languageconfiguration.internal.supports.IndentRulesSupport;
 import org.eclipse.tm4e.languageconfiguration.internal.supports.OnEnterSupport;
 import org.eclipse.tm4e.languageconfiguration.internal.utils.TextUtils;
-
-import java.util.Arrays;
-
-import io.github.rosemoe.sora.lang.smartEnter.NewlineHandleResult;
-import io.github.rosemoe.sora.lang.smartEnter.NewlineHandler;
-import io.github.rosemoe.sora.lang.styling.Styles;
-import io.github.rosemoe.sora.text.CharPosition;
-import io.github.rosemoe.sora.text.Content;
 
 public class VCSpaceTMNewlineHandler implements NewlineHandler {
   private OnEnterSupport enterSupport = null;

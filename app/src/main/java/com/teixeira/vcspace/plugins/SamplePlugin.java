@@ -16,9 +16,7 @@
 package com.teixeira.vcspace.plugins;
 
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import com.vcspace.plugins.Plugin;
 import com.vcspace.plugins.PluginContext;
 

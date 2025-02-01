@@ -16,12 +16,9 @@
 package com.vcspace.plugins;
 
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.vcspace.plugins.editor.Position;
-
 import java.io.File;
 
 /** Represents the editor within the application. */
