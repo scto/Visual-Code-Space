@@ -15,16 +15,14 @@
 
 package com.itsvks.monaco.option
 
-/**
- * Configuration options for auto indentation in the editor
- */
+/** Configuration options for auto indentation in the editor */
 @JvmInline
 value class EditorAutoIndentStrategy private constructor(override val value: Int) : Option<Int> {
-  companion object {
-    val None = EditorAutoIndentStrategy(0)
-    val Keep = EditorAutoIndentStrategy(1)
-    val Brackets = EditorAutoIndentStrategy(2)
-    val Advanced = EditorAutoIndentStrategy(3)
-    val Full = EditorAutoIndentStrategy(4)
-  }
+    companion object {
+        val None = EditorAutoIndentStrategy(0)
+        val Keep = EditorAutoIndentStrategy(1)
+        val Brackets = EditorAutoIndentStrategy(2)
+        val Advanced = EditorAutoIndentStrategy(3)
+        val Full = EditorAutoIndentStrategy(4)
+    }
 }

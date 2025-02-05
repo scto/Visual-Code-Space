@@ -25,34 +25,25 @@ import androidx.navigation.NavController
 import com.teixeira.vcspace.ui.screens.PluginScreens
 
 @Composable
-fun PluginTabs(
-  modifier: Modifier = Modifier,
-  currentRoute: String,
-  navController: NavController
-) {
-  val tabItems = listOf(PluginScreens.Installed)
-  val tabIndices = mapOf(PluginScreens.Installed.route to 0)
+fun PluginTabs(modifier: Modifier = Modifier, currentRoute: String, navController: NavController) {
+    val tabItems = listOf(PluginScreens.Installed)
+    val tabIndices = mapOf(PluginScreens.Installed.route to 0)
 
-  TabRow(
-    modifier = modifier,
-    selectedTabIndex = tabIndices[currentRoute] ?: 0
-  ) {
-    tabItems.forEach { screen ->
-      Tab(
-        selected = currentRoute == screen.route,
-        onClick = {
-          navController.navigate(screen.route) {
-            popUpTo(navController.graph.startDestinationId) {
-              saveState = true
-            }
-            launchSingleTop = true
-            restoreState = true
-          }
-        },
-        text = { Text(screen.title) },
-        selectedContentColor = MaterialTheme.colorScheme.primary,
-        unselectedContentColor = MaterialTheme.colorScheme.onBackground,
-      )
+    TabRow(modifier = modifier, selectedTabIndex = tabIndices[currentRoute] ?: 0) {
+        tabItems.forEach { screen ->
+            Tab(
+                selected = currentRoute == screen.route,
+                onClick = {
+                    navController.navigate(screen.route) {
+                        popUpTo(navController.graph.startDestinationId) { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                text = { Text(screen.title) },
+                selectedContentColor = MaterialTheme.colorScheme.primary,
+                unselectedContentColor = MaterialTheme.colorScheme.onBackground,
+            )
+        }
     }
-  }
 }

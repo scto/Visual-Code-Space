@@ -43,148 +43,140 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.teixeira.vcspace.compose.clipUrl
 import com.teixeira.vcspace.git.GitConstants
+import com.teixeira.vcspace.git.GitManager.Companion.instance as git
 import com.teixeira.vcspace.resources.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.teixeira.vcspace.git.GitManager.Companion.instance as git
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddRemoteSheet(
-  onDismissRequest: () -> Unit,
-  modifier: Modifier = Modifier,
-  onSuccess: suspend CoroutineScope.() -> Unit = {},
-  onFailure: suspend CoroutineScope.(Throwable) -> Unit = {}
+    onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier,
+    onSuccess: suspend CoroutineScope.() -> Unit = {},
+    onFailure: suspend CoroutineScope.(Throwable) -> Unit = {},
 ) {
-  val coroutineScope = rememberCoroutineScope()
-  val sheetState = rememberModalBottomSheetState()
-  val clipboardUrl = clipUrl()
+    val coroutineScope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState()
+    val clipboardUrl = clipUrl()
 
-  var remoteUrl by remember { mutableStateOf(clipboardUrl ?: "") }
-  var remoteName by remember { mutableStateOf(GitConstants.DEFAULT_REMOTE_NAME) }
-  var isLoading by remember { mutableStateOf(false) }
+    var remoteUrl by remember { mutableStateOf(clipboardUrl ?: "") }
+    var remoteName by remember { mutableStateOf(GitConstants.DEFAULT_REMOTE_NAME) }
+    var isLoading by remember { mutableStateOf(false) }
 
-  val hide = remember {
-    suspend {
-      coroutineScope.launch { sheetState.hide() }.invokeOnCompletion {
-        if (!sheetState.isVisible && !isLoading) {
-          onDismissRequest()
+    val hide = remember {
+        suspend {
+            coroutineScope
+                .launch { sheetState.hide() }
+                .invokeOnCompletion {
+                    if (!sheetState.isVisible && !isLoading) {
+                        onDismissRequest()
+                    }
+                }
         }
-      }
     }
-  }
 
-  ModalBottomSheet(
-    onDismissRequest = if (!isLoading) onDismissRequest else ({}),
-    modifier = modifier,
-    sheetState = sheetState
-  ) {
-    Column(
-      modifier = Modifier
-        .padding(16.dp)
-        .fillMaxSize(),
-      horizontalAlignment = Alignment.Start
+    ModalBottomSheet(
+        onDismissRequest = if (!isLoading) onDismissRequest else ({}),
+        modifier = modifier,
+        sheetState = sheetState,
     ) {
-      Text(
-        text = stringResource(R.string.add_remote),
-        fontSize = 22.sp,
-        fontWeight = FontWeight.Bold,
-        lineHeight = 28.sp,
-        letterSpacing = (-0.015).sp
-      )
+        Column(
+            modifier = Modifier.padding(16.dp).fillMaxSize(),
+            horizontalAlignment = Alignment.Start,
+        ) {
+            Text(
+                text = stringResource(R.string.add_remote),
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                lineHeight = 28.sp,
+                letterSpacing = (-0.015).sp,
+            )
 
-      Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-      if (isLoading) {
-        Spacer(modifier = Modifier.height(8.dp))
-        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-        Spacer(modifier = Modifier.height(8.dp))
-      }
-
-      Text(
-        text = stringResource(R.string.add_remote_msg),
-        fontSize = 16.sp,
-        lineHeight = 20.sp
-      )
-
-      Spacer(modifier = Modifier.height(16.dp))
-
-      OutlinedTextField(
-        value = remoteUrl,
-        onValueChange = { remoteUrl = it },
-        modifier = Modifier.fillMaxWidth(),
-        label = { Text(text = stringResource(R.string.remote_url)) }
-      )
-
-      Spacer(modifier = Modifier.height(16.dp))
-
-      OutlinedTextField(
-        value = remoteName,
-        onValueChange = { remoteName = it },
-        modifier = Modifier.fillMaxWidth(),
-        label = { Text(text = stringResource(R.string.remote_name)) }
-      )
-
-      Spacer(modifier = Modifier.height(16.dp))
-
-      Button(
-        onClick = {
-          coroutineScope.launch(Dispatchers.IO) {
-            isLoading = true
-
-            runCatching {
-              addRemote(
-                remoteUrl = remoteUrl,
-                remoteName = remoteName
-              )
-            }.onSuccess {
-              isLoading = false
-              hide()
-
-              withContext(Dispatchers.Main.immediate + SupervisorJob()) {
-                onSuccess()
-              }
-            }.onFailure {
-              isLoading = false
-              hide()
-
-              withContext(Dispatchers.Main) {
-                onFailure(it)
-              }
+            if (isLoading) {
+                Spacer(modifier = Modifier.height(8.dp))
+                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                Spacer(modifier = Modifier.height(8.dp))
             }
-          }
-        },
-        modifier = Modifier.fillMaxWidth(),
-        enabled = !isLoading
-      ) {
-        Text(
-          text = stringResource(id = android.R.string.ok),
-          fontWeight = FontWeight.SemiBold,
-          letterSpacing = (0.015).em
-        )
-      }
 
-      Button(
-        onClick = { coroutineScope.launch { hide() } },
-        modifier = Modifier.fillMaxWidth(),
-        enabled = !isLoading
-      ) {
-        Text(
-          text = stringResource(id = android.R.string.cancel),
-          fontWeight = FontWeight.SemiBold,
-          letterSpacing = (0.015).em
-        )
-      }
+            Text(
+                text = stringResource(R.string.add_remote_msg),
+                fontSize = 16.sp,
+                lineHeight = 20.sp,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = remoteUrl,
+                onValueChange = { remoteUrl = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(text = stringResource(R.string.remote_url)) },
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = remoteName,
+                onValueChange = { remoteName = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(text = stringResource(R.string.remote_name)) },
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = {
+                    coroutineScope.launch(Dispatchers.IO) {
+                        isLoading = true
+
+                        runCatching { addRemote(remoteUrl = remoteUrl, remoteName = remoteName) }
+                            .onSuccess {
+                                isLoading = false
+                                hide()
+
+                                withContext(Dispatchers.Main.immediate + SupervisorJob()) {
+                                    onSuccess()
+                                }
+                            }
+                            .onFailure {
+                                isLoading = false
+                                hide()
+
+                                withContext(Dispatchers.Main) { onFailure(it) }
+                            }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !isLoading,
+            ) {
+                Text(
+                    text = stringResource(id = android.R.string.ok),
+                    fontWeight = FontWeight.SemiBold,
+                    letterSpacing = (0.015).em,
+                )
+            }
+
+            Button(
+                onClick = { coroutineScope.launch { hide() } },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !isLoading,
+            ) {
+                Text(
+                    text = stringResource(id = android.R.string.cancel),
+                    fontWeight = FontWeight.SemiBold,
+                    letterSpacing = (0.015).em,
+                )
+            }
+        }
     }
-  }
 }
 
-private fun addRemote(
-  remoteUrl: String,
-  remoteName: String
-) {
-  git.addRemote(remoteUrl, remoteName)
+private fun addRemote(remoteUrl: String, remoteName: String) {
+    git.addRemote(remoteUrl, remoteName)
 }

@@ -15,28 +15,30 @@
 
 package com.teixeira.vcspace.utils
 
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 suspend fun <T> Call<T>.awaitResult(): Result<T> {
-  return suspendCoroutine { continuation ->
-    enqueue(object : Callback<T> {
-      override fun onResponse(call: Call<T>, response: Response<T>) {
-        if (response.isSuccessful) {
-          continuation.resume(Result.success(response.body()!!))
-        } else {
-          continuation.resume(Result.failure(HttpException(response)))
-        }
-      }
+    return suspendCoroutine { continuation ->
+        enqueue(
+            object : Callback<T> {
+                override fun onResponse(call: Call<T>, response: Response<T>) {
+                    if (response.isSuccessful) {
+                        continuation.resume(Result.success(response.body()!!))
+                    } else {
+                        continuation.resume(Result.failure(HttpException(response)))
+                    }
+                }
 
-      override fun onFailure(call: Call<T>, t: Throwable) {
-        continuation.resumeWithException(t)
-      }
-    })
-  }
+                override fun onFailure(call: Call<T>, t: Throwable) {
+                    continuation.resumeWithException(t)
+                }
+            }
+        )
+    }
 }

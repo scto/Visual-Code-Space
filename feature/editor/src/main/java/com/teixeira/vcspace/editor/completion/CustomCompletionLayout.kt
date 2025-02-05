@@ -23,17 +23,21 @@ import io.github.rosemoe.sora.widget.component.DefaultCompletionLayout
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 
 class CustomCompletionLayout : DefaultCompletionLayout() {
-  override fun onApplyColorScheme(colorScheme: EditorColorScheme) {
-    (completionList.parent as? ViewGroup)?.background =
-      GradientDrawable().apply {
-        setStroke(
-          2,
-          completionList.context.getAttrColor(com.google.android.material.R.attr.colorOutline),
-        )
-        setColor(
-          completionList.context.getAttrColor(com.google.android.material.R.attr.colorSurface)
-        )
-        setCornerRadius(10f)
-      }
-  }
+    override fun onApplyColorScheme(colorScheme: EditorColorScheme) {
+        (completionList.parent as? ViewGroup)?.background =
+            GradientDrawable().apply {
+                setStroke(
+                    2,
+                    completionList.context.getAttrColor(
+                        com.google.android.material.R.attr.colorOutline
+                    ),
+                )
+                setColor(
+                    completionList.context.getAttrColor(
+                        com.google.android.material.R.attr.colorSurface
+                    )
+                )
+                setCornerRadius(10f)
+            }
+    }
 }

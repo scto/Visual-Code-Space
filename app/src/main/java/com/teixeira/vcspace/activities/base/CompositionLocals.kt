@@ -20,10 +20,8 @@ import androidx.compose.runtime.compositionLocalOf
 import com.teixeira.vcspace.app.noLocalProvidedFor
 import kotlinx.coroutines.CoroutineScope
 
-val LocalLifecycleScope = compositionLocalOf<CoroutineScope> {
-  noLocalProvidedFor("LocalLifecycleScope")
-}
+val LocalLifecycleScope =
+    compositionLocalOf<CoroutineScope> { noLocalProvidedFor("LocalLifecycleScope") }
 
-val LocalLayoutInflater = compositionLocalOf<LayoutInflater> {
-  noLocalProvidedFor("LocalLayoutInflater")
-}
+val LocalLayoutInflater =
+    compositionLocalOf<LayoutInflater> { noLocalProvidedFor("LocalLayoutInflater") }

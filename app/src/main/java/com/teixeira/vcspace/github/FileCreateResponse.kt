@@ -17,7 +17,4 @@ package com.teixeira.vcspace.github
 
 import com.teixeira.vcspace.github.commit.Commit
 
-data class FileCreateResponse(
-  val content: Content,
-  val commit: Commit
-)
+data class FileCreateResponse(val content: Content, val commit: Commit)

@@ -23,18 +23,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.teixeira.vcspace.ui.theme.VCSpaceTheme
 
 @Composable
-fun VCSpaceBottomSheet(
-  modifier: Modifier = Modifier
-) {
-  VCSpaceTheme {
-    Box(modifier) {
-      Text(text = "VCSpaceBottomSheet")
-    }
-  }
+fun VCSpaceBottomSheet(modifier: Modifier = Modifier) {
+    VCSpaceTheme { Box(modifier) { Text(text = "VCSpaceBottomSheet") } }
 }
 
 @Preview(name = "VCSpaceBottomSheet")
 @Composable
 private fun PreviewVCSpaceBottomSheet() {
-  VCSpaceBottomSheet()
+    VCSpaceBottomSheet()
 }

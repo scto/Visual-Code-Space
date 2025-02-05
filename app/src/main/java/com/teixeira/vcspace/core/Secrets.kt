@@ -16,6 +16,5 @@
 package com.teixeira.vcspace.core
 
 object Secrets {
-  @JvmStatic
-  external fun getGenerativeAiApiKey(): String
+    @JvmStatic external fun getGenerativeAiApiKey(): String
 }

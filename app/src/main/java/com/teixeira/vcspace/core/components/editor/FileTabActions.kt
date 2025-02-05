@@ -23,34 +23,28 @@ import com.teixeira.vcspace.resources.R.string
 import com.teixeira.vcspace.ui.screens.editor.EditorViewModel
 
 @Composable
-fun FileTabActions(
-  editorViewModel: EditorViewModel,
-  index: Int,
-  onClick: () -> Unit = {}
-) {
-  DropdownMenuItem(
-    text = { Text(stringResource(string.close)) },
-    onClick = {
-      editorViewModel.closeFile(index)
-      onClick()
-    }
-  )
+fun FileTabActions(editorViewModel: EditorViewModel, index: Int, onClick: () -> Unit = {}) {
+    DropdownMenuItem(
+        text = { Text(stringResource(string.close)) },
+        onClick = {
+            editorViewModel.closeFile(index)
+            onClick()
+        },
+    )
 
-  DropdownMenuItem(
-    text = { Text(stringResource(string.close_others)) },
-    onClick = {
-      editorViewModel.closeOthers(index)
-      onClick()
-    }
-  )
+    DropdownMenuItem(
+        text = { Text(stringResource(string.close_others)) },
+        onClick = {
+            editorViewModel.closeOthers(index)
+            onClick()
+        },
+    )
 
-  DropdownMenuItem(
-    text = { Text(stringResource(string.close_all)) },
-    onClick = {
-      editorViewModel.closeAll()
-      onClick()
-    }
-  )
+    DropdownMenuItem(
+        text = { Text(stringResource(string.close_all)) },
+        onClick = {
+            editorViewModel.closeAll()
+            onClick()
+        },
+    )
 }
-
-

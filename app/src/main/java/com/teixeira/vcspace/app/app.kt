@@ -18,6 +18,8 @@ package com.teixeira.vcspace.app
 import com.teixeira.vcspace.file.File
 
 typealias DoNothing = Unit
+
 typealias Folder = File
 
-const val MONACO_EDITOR_ARCHIVE = "https://github.com/Visual-Code-Space/monaco-editor/archive/refs/heads/main.zip"
+const val MONACO_EDITOR_ARCHIVE =
+    "https://github.com/Visual-Code-Space/monaco-editor/archive/refs/heads/main.zip"

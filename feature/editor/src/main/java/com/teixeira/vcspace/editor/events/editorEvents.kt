@@ -17,10 +17,6 @@ package com.teixeira.vcspace.editor.events
 
 import com.teixeira.vcspace.file.File
 
-data class OnContentChangeEvent(
-  val file: File?
-)
+data class OnContentChangeEvent(val file: File?)
 
-data class OnKeyBindingEvent(
-  val canEditorHandle: Boolean
-)
+data class OnKeyBindingEvent(val canEditorHandle: Boolean)

@@ -15,7 +15,4 @@
 
 package com.itsvks.monaco.option
 
-data class Position(
-  val lineNumber: Int,
-  val column: Int
-)
+data class Position(val lineNumber: Int, val column: Int)

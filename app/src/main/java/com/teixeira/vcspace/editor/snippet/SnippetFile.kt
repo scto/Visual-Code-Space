@@ -15,6 +15,4 @@
 
 package com.teixeira.vcspace.editor.snippet
 
-data class SnippetFile(
-  val snippets: List<Snippet>
-)
+data class SnippetFile(val snippets: List<Snippet>)

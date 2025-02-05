@@ -40,81 +40,74 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.teixeira.vcspace.ui.screens.editor.EditorViewModel
 
 @Composable
-fun FileTabLayout(
-  modifier: Modifier = Modifier,
-  editorViewModel: EditorViewModel
-) {
-  val uiState by editorViewModel.uiState.collectAsStateWithLifecycle()
+fun FileTabLayout(modifier: Modifier = Modifier, editorViewModel: EditorViewModel) {
+    val uiState by editorViewModel.uiState.collectAsStateWithLifecycle()
 
-  val selectedFileIndex = uiState.selectedFileIndex.coerceAtLeast(0) // Ensure index is non-negative
-  val openedFiles = uiState.openedFiles
+    val selectedFileIndex =
+        uiState.selectedFileIndex.coerceAtLeast(0) // Ensure index is non-negative
+    val openedFiles = uiState.openedFiles
 
-  // Return early if no files are open
-  if (openedFiles.isEmpty()) return
+    // Return early if no files are open
+    if (openedFiles.isEmpty()) return
 
-  var showTabMenu by remember { mutableStateOf(false) }
-  var tabPosition by remember { mutableStateOf<TabPosition?>(null) }
+    var showTabMenu by remember { mutableStateOf(false) }
+    var tabPosition by remember { mutableStateOf<TabPosition?>(null) }
 
-  @Composable
-  fun tabOffset(position: TabPosition?): State<Dp> {
-    return animateDpAsState(
-      targetValue = position?.left ?: 0.dp,
-      label = "tabOffset"
-    )
-  }
-
-  ScrollableTabRow(
-    selectedTabIndex = selectedFileIndex.coerceIn(0, openedFiles.size - 1),
-    modifier = modifier.fillMaxWidth(),
-    edgePadding = 0.dp,
-    indicator = { tabPositions ->
-      tabPosition = tabPositions.getOrNull(selectedFileIndex)
-
-      if (tabPosition != null) {
-        TabRowDefaults.SecondaryIndicator(
-          Modifier.tabIndicatorOffset(tabPosition!!)
-        )
-      }
-    },
-    divider = {
-      val tabOffset by tabOffset(tabPosition)
-
-      DropdownMenu(
-        expanded = showTabMenu,
-        offset = DpOffset(
-          x = if (selectedFileIndex == 0) tabOffset + 2.dp else tabOffset,
-          y = 2.dp
-        ),
-        shape = MaterialTheme.shapes.medium,
-        onDismissRequest = { showTabMenu = false }
-      ) {
-        FileTabActions(
-          editorViewModel = editorViewModel,
-          index = selectedFileIndex
-        ) {
-          showTabMenu = false
-        }
-      }
+    @Composable
+    fun tabOffset(position: TabPosition?): State<Dp> {
+        return animateDpAsState(targetValue = position?.left ?: 0.dp, label = "tabOffset")
     }
-  ) {
-    openedFiles.forEachIndexed { index, openedFile ->
-      Tab(
-        selected = index == selectedFileIndex,
-        onClick = {
-          if (index == selectedFileIndex) {
-            showTabMenu = true
-          } else {
-            editorViewModel.selectFile(index)
-          }
+
+    ScrollableTabRow(
+        selectedTabIndex = selectedFileIndex.coerceIn(0, openedFiles.size - 1),
+        modifier = modifier.fillMaxWidth(),
+        edgePadding = 0.dp,
+        indicator = { tabPositions ->
+            tabPosition = tabPositions.getOrNull(selectedFileIndex)
+
+            if (tabPosition != null) {
+                TabRowDefaults.SecondaryIndicator(Modifier.tabIndicatorOffset(tabPosition!!))
+            }
         },
-        text = {
-          Text(
-            text = if (openedFile.isModified) "*${openedFile.file.name}" else openedFile.file.name
-          )
-        }
-      )
-    }
-  }
+        divider = {
+            val tabOffset by tabOffset(tabPosition)
 
-  HorizontalDivider(thickness = 1.dp)
+            DropdownMenu(
+                expanded = showTabMenu,
+                offset =
+                    DpOffset(
+                        x = if (selectedFileIndex == 0) tabOffset + 2.dp else tabOffset,
+                        y = 2.dp,
+                    ),
+                shape = MaterialTheme.shapes.medium,
+                onDismissRequest = { showTabMenu = false },
+            ) {
+                FileTabActions(editorViewModel = editorViewModel, index = selectedFileIndex) {
+                    showTabMenu = false
+                }
+            }
+        },
+    ) {
+        openedFiles.forEachIndexed { index, openedFile ->
+            Tab(
+                selected = index == selectedFileIndex,
+                onClick = {
+                    if (index == selectedFileIndex) {
+                        showTabMenu = true
+                    } else {
+                        editorViewModel.selectFile(index)
+                    }
+                },
+                text = {
+                    Text(
+                        text =
+                            if (openedFile.isModified) "*${openedFile.file.name}"
+                            else openedFile.file.name
+                    )
+                },
+            )
+        }
+    }
+
+    HorizontalDivider(thickness = 1.dp)
 }

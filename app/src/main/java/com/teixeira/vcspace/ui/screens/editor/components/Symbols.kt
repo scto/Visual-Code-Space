@@ -36,36 +36,35 @@ import com.teixeira.vcspace.core.settings.Settings.Editor.rememberSymbols
 import com.teixeira.vcspace.ui.screens.editor.components.view.CodeEditorView
 
 @Composable
-fun Symbols(
-  editor: View,
-  modifier: Modifier = Modifier
-) {
-  val symbol by rememberSymbols()
-  val symbolItems = symbol.toList()
+fun Symbols(editor: View, modifier: Modifier = Modifier) {
+    val symbol by rememberSymbols()
+    val symbolItems = symbol.toList()
 
-  LazyRow(modifier = modifier.navigationBarsPadding()) {
-    items(symbolItems) { item ->
-      Box(
-        modifier = Modifier
-          .size(40.dp)
-          .clip(MaterialTheme.shapes.small)
-          .clickable(
-            onClick = {
-              if (editor is MonacoEditor) {
-                editor.dispatchKey(item.toString())
-              } else if (editor is CodeEditorView) {
-                val cursor = editor.editor.cursor
-                editor.editor.text.insert(cursor.rightLine, cursor.rightColumn, item.toString())
-              }
-            },
-            role = Role.Button
-          ),
-        contentAlignment = Alignment.Center
-      ) {
-        Text(
-          text = item.toString()
-        )
-      }
+    LazyRow(modifier = modifier.navigationBarsPadding()) {
+        items(symbolItems) { item ->
+            Box(
+                modifier =
+                    Modifier.size(40.dp)
+                        .clip(MaterialTheme.shapes.small)
+                        .clickable(
+                            onClick = {
+                                if (editor is MonacoEditor) {
+                                    editor.dispatchKey(item.toString())
+                                } else if (editor is CodeEditorView) {
+                                    val cursor = editor.editor.cursor
+                                    editor.editor.text.insert(
+                                        cursor.rightLine,
+                                        cursor.rightColumn,
+                                        item.toString(),
+                                    )
+                                }
+                            },
+                            role = Role.Button,
+                        ),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(text = item.toString())
+            }
+        }
     }
-  }
 }

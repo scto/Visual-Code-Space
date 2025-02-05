@@ -20,11 +20,6 @@ package com.vcspace.plugins.editor
  *
  * @property lineNumber The line number of the cursor position (1-based). Defaults to 1.
  * @property column The column number of the cursor position (1-based). Defaults to 1.
- *
  * @constructor Creates a new Position instance with the specified line and column numbers.
- *
  */
-data class Position @JvmOverloads constructor(
-  val lineNumber: Int = 1,
-  val column: Int = 1
-)
+data class Position @JvmOverloads constructor(val lineNumber: Int = 1, val column: Int = 1)

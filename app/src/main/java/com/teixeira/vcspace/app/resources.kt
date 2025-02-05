@@ -19,9 +19,12 @@ import android.content.res.Resources
 import com.teixeira.vcspace.resources.R
 
 typealias strings = R.string
+
 typealias drawables = R.drawable
+
 typealias fonts = R.font
+
 typealias ids = R.id
 
 inline val Int.dp: Int
-  get() = (Resources.getSystem().displayMetrics.density * this + 0.5f).toInt()
+    get() = (Resources.getSystem().displayMetrics.density * this + 0.5f).toInt()

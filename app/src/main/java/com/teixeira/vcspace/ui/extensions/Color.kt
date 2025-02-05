@@ -22,15 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
 
-fun Color.blend(
-  color: Color,
-  @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f
-): Color = Color(ColorUtils.blendARGB(this.toArgb(), color.toArgb(), fraction))
+fun Color.blend(color: Color, @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f): Color =
+    Color(ColorUtils.blendARGB(this.toArgb(), color.toArgb(), fraction))
 
 @Composable
-fun Color.harmonizeWithPrimary(
-  @FloatRange(
-    from = 0.0,
-    to = 1.0
-  ) fraction: Float = 0.2f
-): Color = blend(MaterialTheme.colorScheme.primary, fraction)
+fun Color.harmonizeWithPrimary(@FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.2f): Color =
+    blend(MaterialTheme.colorScheme.primary, fraction)

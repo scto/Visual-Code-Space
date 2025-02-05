@@ -20,12 +20,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 
 @Composable
-fun DialogButton(
-  text: String,
-  enabled: Boolean = true,
-  onClick: () -> Unit
-) {
-  TextButton(onClick = onClick, enabled = enabled) {
-    Text(text = text)
-  }
+fun DialogButton(text: String, enabled: Boolean = true, onClick: () -> Unit) {
+    TextButton(onClick = onClick, enabled = enabled) { Text(text = text) }
 }
