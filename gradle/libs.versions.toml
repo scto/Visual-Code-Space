@@ -35,6 +35,9 @@ junit = "4.13.2"
 junit-version = "1.2.1"
 espresso-core = "3.6.1"
 
+spotbugsPlugins = "1.13.0"
+spotbugs = "4.8.6"
+
 [libraries]
 
 # AndroidX
@@ -116,6 +119,10 @@ treeview = { module = "io.github.dingyi222666:treeview", version.ref = "treeview
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit-version" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+
+# Spotbugs
+spotbugs-plugins = { group = "com.h3xstream.findsecbugs", name = "findsecbugs-plugin", version.ref = "spotbugsPlugins" }
+spotbugs = { group = "com.github.spotbugs", name = "spotbugs", version.ref = "spotbugs" }
 
 [plugins]
 android-application = { id = "com.android.application", version = "8.6.0" }
