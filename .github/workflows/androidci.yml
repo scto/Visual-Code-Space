@@ -42,6 +42,14 @@ jobs:
       - name: Debug token.properties creation
         run: ls -la $GITHUB_WORKSPACE
 
+      - name: Set up NDK 28
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r28
+
+      - name: Run NDK Build 
+        run: ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=./Android.mk NDK_APPLICATION_MK=./Application.mk
+  
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
